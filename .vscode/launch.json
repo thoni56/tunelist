@@ -5,13 +5,14 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python Debugger: Current File with Arguments",
+            "name": "Tunelist on Music",
             "type": "debugpy",
             "request": "launch",
-            "program": "${file}",
+            "program": "${workspaceFolder}/tunelist.py",
             "console": "integratedTerminal",
+            "cwd": "~/Music",
             "args": [
-                "${command:pickArgs}"
+                "."
             ]
         }
     ]

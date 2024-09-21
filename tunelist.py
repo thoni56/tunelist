@@ -123,6 +123,12 @@ def write_music_metadata_to_html(directory, html_filename):
                     <th onclick="sortTable(2)">Genre</th>
                     <th onclick="sortTable(3)">BPM</th>
                 </tr>
+                <tr>
+                    <th><input type="text" id="artistFilter" onkeyup="filterTable(0)" placeholder="Filter by artist"></th>
+                    <th><input type="text" id="titleFilter" onkeyup="filterTable(1)" placeholder="Filter by title"></th>
+                    <th><input type="text" id="genreFilter" onkeyup="filterTable(2)" placeholder="Filter by genre"></th>
+                    <th><input type="text" id="bpmFilter" onkeyup="filterTable(3)" placeholder="Filter by BPM"></th>
+                </tr>
             </thead>
             <tbody>
         """)
@@ -193,6 +199,36 @@ def write_music_metadata_to_html(directory, html_filename):
                 }
             }
         }
+        function filterTable(n) {
+            var input, filter, table, tr, td, i, txtValue;
+            // Välj rätt filterfält baserat på kolumnindex
+            if (n == 0) {
+                input = document.getElementById("artistFilter");
+            } else if (n == 1) {
+                input = document.getElementById("titleFilter");
+            } else if (n == 2) {
+                input = document.getElementById("genreFilter");
+            } else if (n == 3) {
+                input = document.getElementById("bpmFilter");
+            }
+            filter = input.value.toUpperCase();
+            table = document.getElementById("musicTable");
+            tr = table.getElementsByTagName("tr");
+
+            // Loopa igenom alla rader (utom rubrikraderna) och dölja de som inte matchar filtersträngen
+            for (i = 2; i < tr.length; i++) { // Börjar på rad 2 för att hoppa över rubriker och filterraden
+                td = tr[i].getElementsByTagName("td")[n];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+
         </script>
 
         </body>

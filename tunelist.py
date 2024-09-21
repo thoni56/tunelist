@@ -199,8 +199,21 @@ def write_music_metadata_to_html(directory, html_filename):
         </html>
         """)
 
-if __name__ == "__main__":
-    directory_to_scan = '.'
+import argparse
+
+def main():
+    # Skapa en parser för att hämta katalogvägen från kommandoraden
+    parser = argparse.ArgumentParser(description='Generate HTML table from music metadata')
+    parser.add_argument('directory', type=str, help='Directory to scan for music files')
+    args = parser.parse_args()
+
+    # Använd den angivna katalogen för att skriva HTML-filen
+    directory_to_scan = args.directory
     html_output_file = 'music_metadata.html'
+    
+    # Kör funktionen för att generera HTML från den angivna katalogen
     write_music_metadata_to_html(directory_to_scan, html_output_file)
     print(f"HTML file written to {html_output_file}")
+
+if __name__ == "__main__":
+    main()

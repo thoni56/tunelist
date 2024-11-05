@@ -127,7 +127,10 @@ def write_music_metadata_to_html(directory, html_filename):
                     <th><input type="text" id="artistFilter" onkeyup="filterTable(0)" placeholder="Filter by artist"></th>
                     <th><input type="text" id="titleFilter" onkeyup="filterTable(1)" placeholder="Filter by title"></th>
                     <th><input type="text" id="genreFilter" onkeyup="filterTable(2)" placeholder="Filter by genre"></th>
-                    <th><input type="text" id="bpmFilter" onkeyup="filterTable(3)" placeholder="Filter by BPM"></th>
+                    <th>
+                        <input type="number" id="bpmMinFilter" onkeyup="filterTable(3)" placeholder="Min BPM">
+                        <input type="number" id="bpmMaxFilter" onkeyup="filterTable(3)" placeholder="Max BPM">
+                   </th>                   
                 </tr>
             </thead>
             <tbody>
@@ -201,34 +204,49 @@ def write_music_metadata_to_html(directory, html_filename):
         }
         function filterTable(n) {
             var input, filter, table, tr, td, i, txtValue;
-            // Välj rätt filterfält baserat på kolumnindex
-            if (n == 0) {
-                input = document.getElementById("artistFilter");
-            } else if (n == 1) {
-                input = document.getElementById("titleFilter");
-            } else if (n == 2) {
-                input = document.getElementById("genreFilter");
-            } else if (n == 3) {
-                input = document.getElementById("bpmFilter");
-            }
-            filter = input.value.toUpperCase();
             table = document.getElementById("musicTable");
             tr = table.getElementsByTagName("tr");
 
-            // Loopa igenom alla rader (utom rubrikraderna) och dölja de som inte matchar filtersträngen
-            for (i = 2; i < tr.length; i++) { // Börjar på rad 2 för att hoppa över rubriker och filterraden
-                td = tr[i].getElementsByTagName("td")[n];
-                if (td) {
-                    txtValue = td.textContent || td.innerText;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                    } else {
-                        tr[i].style.display = "none";
+            if (n === 3) {  // Numerisk filtrering för BPM
+                var minBpm = document.getElementById("bpmMinFilter").value;
+                var maxBpm = document.getElementById("bpmMaxFilter").value;
+
+                for (i = 2; i < tr.length; i++) { // Börjar på rad 2 för att hoppa över rubriker och filterraden
+                    td = tr[i].getElementsByTagName("td")[n];
+                    if (td) {
+                        var bpmValue = parseInt(td.textContent || td.innerText, 10);
+                        var display = true;
+
+                        // Kontrollera om BPM är inom intervallet
+                        if (minBpm && bpmValue < parseInt(minBpm, 10)) {
+                            display = false;
+                        }
+                        if (maxBpm && bpmValue > parseInt(maxBpm, 10)) {
+                            display = false;
+                        }
+
+                        tr[i].style.display = display ? "" : "none";
+                    }
+                }
+            } else {  // Textbaserad filtrering för de andra kolumnerna
+                if (n === 0) {
+                    input = document.getElementById("artistFilter");
+                } else if (n === 1) {
+                    input = document.getElementById("titleFilter");
+                } else if (n === 2) {
+                    input = document.getElementById("genreFilter");
+                }
+                filter = input.value.toUpperCase();
+
+                for (i = 2; i < tr.length; i++) {
+                    td = tr[i].getElementsByTagName("td")[n];
+                    if (td) {
+                        txtValue = td.textContent || td.innerText;
+                        tr[i].style.display = txtValue.toUpperCase().indexOf(filter) > -1 ? "" : "none";
                     }
                 }
             }
         }
-
         </script>
 
         </body>

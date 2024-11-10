@@ -263,7 +263,7 @@ def main():
 
     # Använd den angivna katalogen för att skriva HTML-filen
     directory_to_scan = args.directory
-    html_output_file = 'music_metadata.html'
+    html_output_file = 'tunelist.html'
     
     # Kör funktionen för att generera HTML från den angivna katalogen
     write_music_metadata_to_html(directory_to_scan, html_output_file)

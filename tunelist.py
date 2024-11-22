@@ -85,7 +85,8 @@ def extract_metadata(file_path):
 
 def write_music_metadata_to_html(directory, html_filename):
     music_files = find_music_files(directory)
-    
+    song_count = len(music_files)
+     
     # Skapa HTML-tabell
     with open(html_filename, 'w') as file:
         file.write("""
@@ -114,7 +115,7 @@ def write_music_metadata_to_html(directory, html_filename):
         </head>
         <body>
 
-        <h2>Linköping Dancing Teams musikbibliotek</h2>
+        <h2>Linköping Dancing Teams musikbibliotek ({song_count} låtar)</h2>
         <table id="musicTable">
             <thead>
                 <tr>

@@ -107,8 +107,8 @@ def write_music_metadata_to_html(directory, html_filename):
                 th, td {{
                     padding: 8px;
                     text-align: left;
-                }
-                th {
+                }}
+                th {{
                     cursor: pointer;
                 }}
             </style>

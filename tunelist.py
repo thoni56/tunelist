@@ -97,20 +97,20 @@ def write_music_metadata_to_html(directory, html_filename):
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Linköping Dancing Team - Musikbiblioteket</title>
             <style>
-                table {
+                table {{
                     width: 100%;
                     border-collapse: collapse;
-                }
-                table, th, td {
+                }}
+                table, th, td {{
                     border: 1px solid black;
-                }
-                th, td {
+                }}
+                th, td {{
                     padding: 8px;
                     text-align: left;
                 }
                 th {
                     cursor: pointer;
-                }
+                }}
             </style>
         </head>
         <body>

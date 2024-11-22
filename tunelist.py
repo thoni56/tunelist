@@ -89,7 +89,7 @@ def write_music_metadata_to_html(directory, html_filename):
      
     # Skapa HTML-tabell
     with open(html_filename, 'w') as file:
-        file.write("""
+        file.write(f"""
         <!DOCTYPE html>
         <html lang="en">
         <head>

@@ -19,27 +19,41 @@ def find_music_files(directory):
 from tinytag import TinyTag
 
 def extract_metadata(file_path):
+    artist = "Unknown"
+    title = "Unknown"
+    genre = "Unknown"
     try:
         tag = TinyTag.get(file_path)
+
+        artist = tag.artist or 'Unknown Artist'
+        title = tag.title or 'Unknown Title'
+        genre = tag.genre or 'Unknown Genre'
+
+        bpm = 0
+        try:
+            bpm = int(tag.other['bpm'][0]) if 'bpm' in tag.other and tag.other['bpm'] else 0
+        except (KeyError, ValueError, TypeError):
+            pass  # Om något går fel, håll bpm som 0
+
         return {
-            'artist': tag.artist or 'Unknown Artist',
-            'title': tag.title or 'Unknown Title',
-            'genre': tag.genre or 'Unknown Genre',
-            'bpm': int(tag.bpm) if tag.bpm else 0
+            'artist': artist,
+            'title': title,
+            'genre': genre,
+            'bpm': bpm
         }
     except Exception as e:
         print(f"Error reading metadata from {file_path}: {e}")
         return {
-            'artist': 'Unknown',
-            'title': 'Unknown',
-            'genre': 'Unknown',
+            'artist': artist,
+            'title': title,
+            'genre': genre,
             'bpm': 0
         }
 
 def write_music_metadata_to_html(directory, html_filename):
     music_files = find_music_files(directory)
     song_count = len(music_files)
-     
+
     # Skapa HTML-tabell
     with open(html_filename, 'w') as file:
         file.write(f"""
@@ -84,7 +98,7 @@ def write_music_metadata_to_html(directory, html_filename):
                     <th>
                         <input type="number" id="bpmMinFilter" onkeyup="filterTable(3)" placeholder="Min BPM">
                         <input type="number" id="bpmMaxFilter" onkeyup="filterTable(3)" placeholder="Max BPM">
-                   </th>                   
+                   </th>
                 </tr>
             </thead>
             <tbody>
@@ -218,7 +232,7 @@ def main():
     # Använd den angivna katalogen för att skriva HTML-filen
     directory_to_scan = args.directory
     html_output_file = 'tunelist.html'
-    
+
     # Kör funktionen för att generera HTML från den angivna katalogen
     write_music_metadata_to_html(directory_to_scan, html_output_file)
     print(f"HTML file written to {html_output_file}")

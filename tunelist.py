@@ -1,11 +1,13 @@
 #! /bin/env python
 import os
+from tinytag import TinyTag
+
 
 def find_music_files(directory):
     music_files = []
     for root, dirs, files in os.walk(directory):
         for file in files:
-            if file.endswith('.mp3'):
+            if TinyTag.is_supported(file):
                 file_path = os.path.join(root, file)
                 metadata = extract_metadata(file_path)
                 music_files.append({
@@ -16,8 +18,6 @@ def find_music_files(directory):
                 })
     return music_files
 
-
-from tinytag import TinyTag
 
 def extract_metadata(file_path):
     artist = "Unknown"

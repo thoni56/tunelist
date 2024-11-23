@@ -1,3 +1,4 @@
+#! /bin/env python
 import os
 
 def find_music_files(directory):

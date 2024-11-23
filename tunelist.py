@@ -32,7 +32,7 @@ def extract_metadata(file_path):
 
         bpm = 0
         try:
-            bpm = int(tag.other['bpm'][0]) if 'bpm' in tag.other and tag.other['bpm'] else 0
+            bpm = tag.other['bpm'][0]
         except (KeyError, ValueError, TypeError):
             pass  # Om något går fel, håll bpm som 0
 
